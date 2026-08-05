@@ -9,7 +9,7 @@
     "generic"
   ],
   "engines": {
-    "atom": "*",
+    "lumine": "*",
     "node": "*"
   },
   "repository": "https://github.com/lumine-code/language-source",
