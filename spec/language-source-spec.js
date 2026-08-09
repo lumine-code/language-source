@@ -3,11 +3,11 @@ describe("language-source", function () {
   // `source.*` grammar inherits when its own package sets nothing. Those
   // defaults are the whole contract, so they are what gets asserted.
   beforeEach(function () {
-    waitsForPromise(() => atom.packages.activatePackage("language-source"));
+    waitsForPromise(() => lumine.packages.activatePackage("language-source"));
   });
 
   function settingFor(key, scope) {
-    return atom.config.get(`language.${key}`, { scope: [scope] });
+    return lumine.config.get(`language.${key}`, { scope: [scope] });
   }
 
   it("applies C-style comment delimiters to any source scope", function () {
