@@ -2,8 +2,8 @@ describe("language-source", function () {
   // The package ships no grammar and no code: it is the scoped defaults every
   // `source.*` grammar inherits when its own package sets nothing. Those
   // defaults are the whole contract, so they are what gets asserted.
-  beforeEach(function () {
-    waitsForPromise(() => lumine.packages.activatePackage("language-source"));
+  beforeEach(async () => {
+    await lumine.packages.activatePackage("language-source");
   });
 
   function settingFor(key, scope) {
