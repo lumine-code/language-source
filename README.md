@@ -10,7 +10,7 @@ Base source file support.
 
 ## Installation
 
-To install `language-source` search for _language-source_ in the Install pane of the Lumine settings or run `lumine --install lumine-code/language-source`.
+To install `language-source` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/language-source`.
 
 ## Contributing
 
