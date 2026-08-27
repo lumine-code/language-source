@@ -1,6 +1,6 @@
 {
   ".source": {
-    "language": {
+    "editor": {
       "commentStart": "/*",
       "commentEnd": "*/",
       "increaseIndentPattern": "^.*(\\{\\}?[^}\"']*|\\([^)\"']*)$",
