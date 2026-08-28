@@ -7,7 +7,7 @@ describe("language-source", function () {
   });
 
   function settingFor(key, scope) {
-    return lumine.config.get(`language.${key}`, { scope: [scope] });
+    return lumine.config.get(`editor.${key}`, { scope: [scope] });
   }
 
   it("applies C-style comment delimiters to any source scope", function () {
