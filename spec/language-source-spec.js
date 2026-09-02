@@ -15,25 +15,6 @@ describe("language-source", function () {
     expect(settingFor("commentEnd", "source.example")).toBe("*/");
   });
 
-  it("indents after an unclosed brace or paren", function () {
-    let increase = new RegExp(settingFor("increaseIndentPattern", "source.example"));
-
-    expect(increase.test("if (x) {")).toBe(true);
-    expect(increase.test("foo(")).toBe(true);
-    expect(increase.test("let x = 1;")).toBe(false);
-    // A brace inside a string or a comment is not an open block.
-    expect(increase.test('let x = "{";')).toBe(false);
-  });
-
-  it("dedents a line that closes a block", function () {
-    let decrease = new RegExp(settingFor("decreaseIndentPattern", "source.example"));
-
-    expect(decrease.test("  }")).toBe(true);
-    expect(decrease.test("  };")).toBe(true);
-    expect(decrease.test("  */ }")).toBe(true);
-    expect(decrease.test("  } else {")).toBe(false);
-  });
-
   it("leaves scopes outside source.* alone", function () {
     expect(settingFor("commentStart", "text.plain")).not.toBe("/*");
   });

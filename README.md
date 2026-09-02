@@ -6,7 +6,6 @@ Base source file support.
 
 - **Grammars**: provides none. This package is scoped settings only, maintained here rather than derived from an upstream grammar.
 - **Comment toggling**: provides fallback comment patterns shared by all source files.
-- **Indentation**: provides fallback indent and outdent rules for source files.
 
 ## Installation
 
