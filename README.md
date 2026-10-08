@@ -2,6 +2,8 @@
 
 Base source file support.
 
+Fork of [pulsar-edit/pulsar](https://github.com/pulsar-edit/pulsar) (`packages/language-source`).
+
 ## Features
 
 - **Grammars**: provides none. This package is scoped settings only, maintained here rather than derived from an upstream grammar.
