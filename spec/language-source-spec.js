@@ -3,8 +3,8 @@ const path = require("path");
 describe("language-source", function () {
   // The package ships no grammar and no code: it is the scoped defaults every
   // `source.*` grammar inherits when its own package sets nothing. Those
-  // defaults are the whole contract, so the fixture uses CSV as a real
-  // `source.*` host whose package declares no scoped comment settings.
+  // defaults are the whole contract. Borrow the CSV parser under a synthetic
+  // source scope so this suite does not depend on CSV's own comment policy.
   beforeEach(async () => {
     await lumine.packages.activatePackage("language-source");
     await lumine.packages.activatePackage("language-csv");
@@ -23,16 +23,32 @@ describe("language-source", function () {
     expect(settingFor("commentStart", "text.plain")).not.toBe("/*");
   });
 
-  it("applies the defaults to an opened source fixture", async function () {
-    const editor = await lumine.workspace.open(path.join(__dirname, "fixtures", "sample.csv"));
-    await editor.getBuffer().getLanguageMode().ready;
+  it("applies the defaults when a source scope has no comment policy", async function () {
+    const csv = lumine.grammars.grammarForScopeName("source.csv");
+    const grammar = lumine.grammars.createGrammar(csv.grammarFilePath, {
+      ...csv.definition,
+      name: "Unconfigured source fixture",
+      scopeName: "source.source-default-spec",
+      fileTypes: [],
+      injectionNames: [],
+    });
+    const registration = lumine.grammars.addGrammar(grammar);
+    let editor;
+    try {
+      editor = await lumine.workspace.open(path.join(__dirname, "fixtures", "sample.csv"));
+      editor.setGrammar(grammar);
+      await editor.whenGrammarSettled();
 
-    expect(editor.getGrammar().scopeName).toBe("source.csv");
-    expect(
-      lumine.config.get("editor.commentStart", { scope: editor.getRootScopeDescriptor() }),
-    ).toBe("/*");
-    expect(lumine.config.get("editor.commentEnd", { scope: editor.getRootScopeDescriptor() })).toBe(
-      "*/",
-    );
+      expect(editor.getGrammar().scopeName).toBe("source.source-default-spec");
+      const comments = await editor.getCommentDelimitersForBufferPosition([0, 0]);
+      expect(comments.block).toEqual(["/*", "*/"]);
+      await editor.toggleLineCommentsForBufferRows(0, 0);
+      await editor.whenGrammarSettled();
+      expect(editor.lineTextForBufferRow(0)).toBe("/* name,value */");
+    } finally {
+      editor?.destroy();
+      registration.dispose();
+      grammar.deactivate();
+    }
   });
 });
